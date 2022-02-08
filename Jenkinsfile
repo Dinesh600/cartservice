@@ -4,7 +4,7 @@ pipeline {
     PROJECT = "my-project-600-339318"
     APP_NAME = "cartservice"
     FE_SVC_NAME = "${APP_NAME}-frontend"
-    CLUSTER = "deployjenkins"
+    CLUSTER = "iphone"
     CLUSTER_ZONE = "us-central1-c"
     IMAGE_TAG = "gcr.io/${PROJECT}/${APP_NAME}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
     JENKINS_CRED = "${PROJECT}"
@@ -24,8 +24,8 @@ spec:
   # Use service account that can deploy to all namespaces
   # serviceAccountName: cd-jenkins
   containers:
-  - name: golang
-    image: golang:1.10
+  - name: packer
+    image: hashicorp/packer:latest
     command:
     - cat
     tty: true
@@ -45,7 +45,7 @@ spec:
   stages {
     stage('Test') {
       steps {
-        container('golang') {
+        container('packer') {
           sh """
             ln -s `pwd`
           """
